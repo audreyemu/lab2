@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
 
   printf("Doing something\n");
   for(int i = 0; i < size; i++){
-    printf((*data)[i].pid);
+    printf((*data).pid);
     printf("Next\n");
   }
 
