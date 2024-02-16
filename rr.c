@@ -189,7 +189,7 @@ int main(int argc, char *argv[])
 
     if(TAILQ_FIRST(&list)){ // pop off first one
       struct process *current_process;
-      current_process = TAILQ_FIRST(&list));
+      current_process = TAILQ_FIRST(&list);
       
       if(quantum_time_left <= 0){ // if time slice ends
         // move to back
@@ -198,7 +198,7 @@ int main(int argc, char *argv[])
         quantum_time_left = quantum_length;
       }
       else{ // actually run the process, check if remaining time is 0
-        printf("Time: %d, Process: %u", current_time, pid);
+        printf("Time: %d, Process: %u", current_time, current_process->pid);
         if(current_process->started_exec != 1){ // checks if this is its first time running
           current_process->started_exec = 1;
           current_process->start_exec_time = current_time;
@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
         current_time += 1; // increment current time
       }
 
-      if(remaining_time <= 0){ // if process is done
+      if(current_process->remaining_time <= 0){ // if process is done
         // get info from it
         TAILQ_REMOVE(&list, current_process, pointers);
         free(current_process);
