@@ -160,6 +160,11 @@ int main(int argc, char *argv[])
   u32 total_response_time = 0;
 
   /* Your code here */
+
+  struct process *current_node;
+  TAILQ_FOREACH(current_node, &list, pointers){
+    printf("Something happening\n");
+  }
   
   /* End of "Your code here" */
 
