@@ -221,8 +221,8 @@ int main(int argc, char *argv[])
       finished = 1;
     }
 
-    if(current_time > 5){
-      printf("current time greater than five\n");
+    if(current_time > 16){
+      printf("current time greater than sixteen\n");
       finished = 1;
       struct process *traverse_process;
       TAILQ_FOREACH(traverse_process, &list, pointers){
