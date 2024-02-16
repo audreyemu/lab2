@@ -161,10 +161,13 @@ int main(int argc, char *argv[])
 
   /* Your code here */
 
-  struct process *current_node;
-  TAILQ_FOREACH(current_node, &list, pointers){
-    printf("Something happening\n");
-  }
+  printf("Doing something\n");
+  printf(*data);
+
+  // struct process *current_node;
+  // TAILQ_FOREACH(current_node, &list, pointers){
+  //   printf("Something happening\n");
+  // }
   
   /* End of "Your code here" */
 
