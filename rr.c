@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
       finished = 1;
       struct process *current_process;
       TAILQ_FOREACH(current_process, &list, pointers){
-        printf("Process\n");
+        printf("Process %u\n", current_process.pid);
       }
     }
   }
