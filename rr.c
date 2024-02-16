@@ -180,6 +180,7 @@ int main(int argc, char *argv[])
         printf("adding something at time %d\n", current_time);
       }
     }
+    current_time = current_time+1;
     if(current_time > 5){
       finished = 1;
     }
