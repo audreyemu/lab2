@@ -167,10 +167,6 @@ int main(int argc, char *argv[])
   printf("Doing something\n");
   for(int i = 0; i < size; i++){
     printf("Pid: %u\narrival_time: %u\nburst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
-    
-    // struct process *p;
-    // p = &data[i];
-    
   }
 
   while(!finished){
@@ -178,11 +174,17 @@ int main(int argc, char *argv[])
       if(data[i].arrival_time == current_time){
         // add to linked list
         printf("adding something at time %d\n", current_time);
+        struct process *new_process = &data[i]; // may need to fix this
+        TAILQ_INSERT_TAIL(&list, new_process, pointers);
       }
     }
     current_time = current_time+1;
     if(current_time > 5){
       finished = 1;
+      struct process *current_process;
+      TAILQ_FOR_EACH(current_process, &list, pointers){
+        printf("Process\n");
+      }
     }
   }
   
