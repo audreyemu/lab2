@@ -225,14 +225,14 @@ int main(int argc, char *argv[])
       finished = 1;
     }
 
-    /*if(current_time > 16){
+    if(current_time > 100){
       //printf("current time greater than sixteen\n");
       finished = 1;
       struct process *traverse_process;
       TAILQ_FOREACH(traverse_process, &list, pointers){
         //printf("Process %u\n", traverse_process->pid);
       }
-    }*/
+    }
   }
   
   /* End of "Your code here" */
