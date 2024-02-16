@@ -211,6 +211,7 @@ int main(int argc, char *argv[])
 
       if(current_process->remaining_time <= 0){ // if process is done
         // get info from it
+        total_response_time += current_process->start_exec_time;
         printf("fully removing %u\n", current_process->pid);
         TAILQ_REMOVE(&list, current_process, pointers);
         // free(current_process); // seems kinda weird
