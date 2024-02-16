@@ -163,8 +163,7 @@ int main(int argc, char *argv[])
 
   printf("Doing something\n");
   for(int i = 0; i < size; i++){
-    printf("%u\n", data[i].pid);
-    printf("Next\n");
+    printf("Pid: %u\narrival_time: %u\nburst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
   }
 
   // struct process *current_node;
