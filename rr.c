@@ -162,7 +162,10 @@ int main(int argc, char *argv[])
   /* Your code here */
 
   printf("Doing something\n");
-  printf(*data);
+  for(int i = 0; i < size; i++){
+    printf(*data[i].pid);
+    printf("Next\n");
+  }
 
   // struct process *current_node;
   // TAILQ_FOREACH(current_node, &list, pointers){
