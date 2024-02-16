@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
     if(current_time > 5){
       finished = 1;
       struct process *current_process;
-      TAILQ_FOR_EACH(current_process, &list, pointers){
+      TAILQ_FOREACH(current_process, &list, pointers){
         printf("Process\n");
       }
     }
