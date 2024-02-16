@@ -18,6 +18,13 @@ struct process
   u32 arrival_time;
   u32 burst_time;
 
+  u32 remaining_time;
+  u32 start_exec_time;
+  int started_exec;
+
+  u32 waiting_time;
+  u32 response_time;
+
   TAILQ_ENTRY(process) pointers;
 
   /* Additional fields here */
@@ -163,6 +170,7 @@ int main(int argc, char *argv[])
 
   int finished = 0;
   int current_time = 0;
+  int quantum_time_left = quantum_length;
 
   printf("Doing something\n");
   for(int i = 0; i < size; i++){
@@ -170,7 +178,7 @@ int main(int argc, char *argv[])
   }
 
   while(!finished){
-    for(int i = 0; i < size; i++){
+    for(int i = 0; i < size; i++){ // adding new processes to end of the queue
       if(data[i].arrival_time == current_time){
         // add to linked list
         printf("adding something at time %d\n", current_time);
@@ -178,12 +186,47 @@ int main(int argc, char *argv[])
         TAILQ_INSERT_TAIL(&list, new_process, pointers);
       }
     }
-    current_time = current_time+1;
-    if(current_time > 5){
-      finished = 1;
+
+    if(TAILQ_FIRST(&list)){ // pop off first one
       struct process *current_process;
-      TAILQ_FOREACH(current_process, &list, pointers){
-        printf("Process %u\n", current_process->pid);
+      current_process = TAILQ_FIRST(&list));
+      
+      if(quantum_time_left <= 0){ // if time slice ends
+        // move to back
+        TAILQ_REMOVE(&list, current_process, pointers);
+        TAILQ_INSERT_TAIL(&list, current_process, pointers);
+        quantum_time_left = quantum_length;
+      }
+      else{ // actually run the process, check if remaining time is 0
+        printf("Time: %d, Process: %u", current_time, pid);
+        if(current_process->started_exec != 1){ // checks if this is its first time running
+          current_process->started_exec = 1;
+          current_process->start_exec_time = current_time;
+          current_process->remaining_time = current_process->burst_time; // ?
+        }
+        current_process->remaining_time -= 1; // decrement remaining time
+        quantum_time_left -=1; // decrement quantum time left
+        current_time += 1; // increment current time
+      }
+
+      if(remaining_time <= 0){ // if process is done
+        // get info from it
+        TAILQ_REMOVE(&list, current_process, pointers);
+        free(current_process);
+        quantum_time_left = quantum_length;
+      }
+    }
+    else{ // idk if this is fully correct (means there is no "first" element left in the queue)
+      printf("This is the end of the program. Need to clean up now\n");
+      finished = 1;
+    }
+
+    if(current_time > 5){
+      printf("current time greater than five\n");
+      finished = 1;
+      struct process *traverse_process;
+      TAILQ_FOREACH(traverse_process, &list, pointers){
+        printf("Process %u\n", traverse_process->pid);
       }
     }
   }
