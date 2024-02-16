@@ -178,20 +178,28 @@ int main(int argc, char *argv[])
   }
 
   while(!finished){
-    for(int i = 0; i < size; i++){ // adding new processes to end of the queue
-      if(data[i].arrival_time == current_time){
-        // add to linked list
-        //printf("adding something at time %d\n", current_time);
-        struct process *new_process = &data[i]; // may need to fix this
-        TAILQ_INSERT_TAIL(&list, new_process, pointers);
-      }
-    }
+    // for(int i = 0; i < size; i++){ // adding new processes to end of the queue
+    //   if(data[i].arrival_time == current_time){
+    //     // add to linked list
+    //     //printf("adding something at time %d\n", current_time);
+    //     struct process *new_process = &data[i]; // may need to fix this
+    //     TAILQ_INSERT_TAIL(&list, new_process, pointers);
+    //   }
+    // }
 
     if(!TAILQ_EMPTY(&list)){ // pop off first one
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
       
       if(quantum_time_left <= 0){ // if time slice ends
+        for(int i = 0; i < size; i++){ // adding new processes to end of the queue
+          if(data[i].arrival_time == current_time){
+            // add to linked list
+            //printf("adding something at time %d\n", current_time);
+            struct process *new_process = &data[i]; // may need to fix this
+            TAILQ_INSERT_TAIL(&list, new_process, pointers);
+          }
+        }
         // move to back
         TAILQ_REMOVE(&list, current_process, pointers);
         TAILQ_INSERT_TAIL(&list, current_process, pointers);
@@ -207,6 +215,16 @@ int main(int argc, char *argv[])
         current_process->remaining_time -= 1; // decrement remaining time
         quantum_time_left -=1; // decrement quantum time left
         current_time += 1; // increment current time
+        // idk
+        for(int i = 0; i < size; i++){ // adding new processes to end of the queue
+          if(data[i].arrival_time == current_time){
+            // add to linked list
+            //printf("adding something at time %d\n", current_time);
+            struct process *new_process = &data[i]; // may need to fix this
+            TAILQ_INSERT_TAIL(&list, new_process, pointers);
+          }
+        }
+        // idk
       }
 
       if(current_process->remaining_time <= 0){ // if process is done
