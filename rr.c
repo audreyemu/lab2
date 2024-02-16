@@ -161,15 +161,27 @@ int main(int argc, char *argv[])
 
   /* Your code here */
 
+  int finished = 0;
+  int current_time = 0;
+
   printf("Doing something\n");
   for(int i = 0; i < size; i++){
     printf("Pid: %u\narrival_time: %u\nburst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
+    
+    // struct process *p;
+    // p = &data[i];
+    
   }
 
-  // struct process *current_node;
-  // TAILQ_FOREACH(current_node, &list, pointers){
-  //   printf("Something happening\n");
-  // }
+  while(!finished){
+    for(int i = 0; i < size; i++){
+      if(data[i].arrival_time == current_time){
+        // add to linked list
+        printf("adding something at time %d\n", current_time);
+      }
+    }
+    finished = 1;
+  }
   
   /* End of "Your code here" */
 
