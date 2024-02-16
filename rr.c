@@ -187,7 +187,7 @@ int main(int argc, char *argv[])
       }
     }
 
-    if(TAILQ_FIRST(&list)){ // pop off first one
+    if(!TAILQ_EMPTY(&list)){ // pop off first one
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
       
