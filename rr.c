@@ -172,37 +172,38 @@ int main(int argc, char *argv[])
   int current_time = 0;
   int quantum_time_left = quantum_length;
 
+  struct process *delayed;
+  int is_delayed = 0;
+
   printf("Doing something\n");
   for(int i = 0; i < size; i++){
     printf("Pid: %u\narrival_time: %u\nburst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
   }
 
   while(!finished){
-    // for(int i = 0; i < size; i++){ // adding new processes to end of the queue
-    //   if(data[i].arrival_time == current_time){
-    //     // add to linked list
-    //     //printf("adding something at time %d\n", current_time);
-    //     struct process *new_process = &data[i]; // may need to fix this
-    //     TAILQ_INSERT_TAIL(&list, new_process, pointers);
-    //   }
-    // }
+    for(int i = 0; i < size; i++){ // adding new processes to end of the queue
+      if(data[i].arrival_time == current_time){
+        // add to linked list
+        //printf("adding something at time %d\n", current_time);
+        struct process *new_process = &data[i]; // may need to fix this
+        TAILQ_INSERT_TAIL(&list, new_process, pointers);
+      }
+    }
+    if(is_delayed){
+      TAILQ_INSERT_TAIL(&list, delayed, pointers);
+      is_delayed = 0;
+    }
 
     if(!TAILQ_EMPTY(&list)){ // pop off first one
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
       
       if(quantum_time_left <= 0){ // if time slice ends
-        for(int i = 0; i < size; i++){ // adding new processes to end of the queue
-          if(data[i].arrival_time == current_time){
-            // add to linked list
-            printf("adding something at time %d\n", current_time);
-            struct process *new_process = &data[i]; // may need to fix this
-            TAILQ_INSERT_TAIL(&list, new_process, pointers);
-          }
-        }
         // move to back
         TAILQ_REMOVE(&list, current_process, pointers);
-        TAILQ_INSERT_TAIL(&list, current_process, pointers);
+        delayed = current_process;
+        is_delayed = 1;
+        // TAILQ_INSERT_TAIL(&list, current_process, pointers);
         quantum_time_left = quantum_length;
       }
       else{ // actually run the process, check if remaining time is 0
@@ -215,16 +216,6 @@ int main(int argc, char *argv[])
         current_process->remaining_time -= 1; // decrement remaining time
         quantum_time_left -=1; // decrement quantum time left
         current_time += 1; // increment current time
-        // idk
-        for(int i = 0; i < size; i++){ // adding new processes to end of the queue
-          if(data[i].arrival_time == current_time){
-            // add to linked list
-            printf("adding something at time %d\n", current_time);
-            struct process *new_process = &data[i]; // may need to fix this
-            TAILQ_INSERT_TAIL(&list, new_process, pointers);
-          }
-        }
-        // idk
       }
 
       if(current_process->remaining_time <= 0){ // if process is done
