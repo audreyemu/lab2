@@ -212,7 +212,7 @@ int main(int argc, char *argv[])
       if(current_process->remaining_time <= 0){ // if process is done
         // get info from it
         TAILQ_REMOVE(&list, current_process, pointers);
-        free(current_process);
+        // free(current_process); // seems kinda weird
         quantum_time_left = quantum_length;
       }
     }
