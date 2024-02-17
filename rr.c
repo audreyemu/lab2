@@ -184,7 +184,7 @@ int main(int argc, char *argv[])
     for(int i = 0; i < size; i++){ // adding new processes to end of the queue
       if(data[i].arrival_time == current_time){
         // add to linked list
-        //printf("adding something at time %d\n", current_time);
+        printf("adding something at time %d\n", current_time);
         struct process *new_process = &data[i]; // may need to fix this
         TAILQ_INSERT_TAIL(&list, new_process, pointers);
       }
@@ -200,6 +200,7 @@ int main(int argc, char *argv[])
       
       if(quantum_time_left <= 0){ // if time slice ends
         // move to back
+        printf("Quantum time slice ended\n");
         TAILQ_REMOVE(&list, current_process, pointers);
         //delayed = current_process;
         //is_delayed = 1;
