@@ -176,14 +176,14 @@ int main(int argc, char *argv[])
   int is_delayed = 0;
 
   for(int i = 0; i < size; i++){
-    printf("Pid: %u, arrival_time: %u, burst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
+    //printf("Pid: %u, arrival_time: %u, burst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
   }
 
   while(!finished){
     for(int i = 0; i < size; i++){ // adding new processes to end of the queue
       if(data[i].arrival_time == current_time){ // add to linked list
         struct process *new_process = &data[i]; // may need to fix this
-        printf("adding %u at time %d\n", new_process->pid, current_time);
+        //printf("adding %u at time %d\n", new_process->pid, current_time);
         TAILQ_INSERT_TAIL(&list, new_process, pointers);
       }
     }
@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
       
-      printf("Time: %d, Process: %u\n", current_time, current_process->pid);
+      //printf("Time: %d, Process: %u\n", current_time, current_process->pid);
       if(current_process->started_exec != 1){ // checks if this is its first time running
         current_process->started_exec = 1;
         current_process->start_exec_time = current_time;
@@ -210,8 +210,8 @@ int main(int argc, char *argv[])
         // get info from it
         total_response_time += (current_process->start_exec_time) - (current_process->arrival_time);
         total_waiting_time += current_time+ - (current_process->arrival_time) - (current_process->burst_time);
-        printf("Total waiting time: %u, current_time: %d, start exec time: %u, burst time: %u\n", total_waiting_time, current_time, current_process->start_exec_time, current_process->burst_time); 
-        printf("fully removing %u\n", current_process->pid);
+        //printf("Total waiting time: %u, current_time: %d, start exec time: %u, burst time: %u\n", total_waiting_time, current_time, current_process->start_exec_time, current_process->burst_time); 
+        //printf("fully removing %u\n", current_process->pid);
         TAILQ_REMOVE(&list, current_process, pointers);
         // free(current_process); // seems kinda weird
         quantum_time_left = quantum_length;
@@ -219,7 +219,7 @@ int main(int argc, char *argv[])
 
       if(quantum_time_left <= 0){ // if time slice ends
         // move to back
-        printf("Quantum time slice ended\n");
+        //printf("Quantum time slice ended\n");
         TAILQ_REMOVE(&list, current_process, pointers);
         delayed = current_process;
         is_delayed = 1;
@@ -228,16 +228,16 @@ int main(int argc, char *argv[])
       }
     }
     else{ // idk if this is fully correct (means there is no "first" element left in the queue)
-      printf("This is the end of the program. Need to clean up now\n");
+      //printf("This is the end of the program. Need to clean up now\n");
       finished = 1;
     }
 
     if(current_time > 100){
-      printf("current time greater than hundred\n");
+      //printf("current time greater than hundred\n");
       finished = 1;
       struct process *traverse_process;
       TAILQ_FOREACH(traverse_process, &list, pointers){
-        printf("Process %u\n", traverse_process->pid);
+        //printf("Process %u\n", traverse_process->pid);
       }
     }
   }
