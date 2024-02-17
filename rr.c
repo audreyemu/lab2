@@ -189,10 +189,10 @@ int main(int argc, char *argv[])
         TAILQ_INSERT_TAIL(&list, new_process, pointers);
       }
     }
-    if(is_delayed){
+    /*if(is_delayed){
       TAILQ_INSERT_TAIL(&list, delayed, pointers);
       is_delayed = 0;
-    }
+    }*/
 
     if(!TAILQ_EMPTY(&list)){ // pop off first one
       struct process *current_process;
@@ -201,9 +201,9 @@ int main(int argc, char *argv[])
       if(quantum_time_left <= 0){ // if time slice ends
         // move to back
         TAILQ_REMOVE(&list, current_process, pointers);
-        delayed = current_process;
-        is_delayed = 1;
-        // TAILQ_INSERT_TAIL(&list, current_process, pointers);
+        //delayed = current_process;
+        //is_delayed = 1;
+        TAILQ_INSERT_TAIL(&list, current_process, pointers);
         quantum_time_left = quantum_length;
       }
       else{ // actually run the process, check if remaining time is 0
