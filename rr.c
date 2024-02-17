@@ -176,14 +176,14 @@ int main(int argc, char *argv[])
   int is_delayed = 0;
 
   for(int i = 0; i < size; i++){
-    //printf("Pid: %u, arrival_time: %u, burst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
+    printf("Pid: %u, arrival_time: %u, burst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
   }
 
   while(!finished){
     for(int i = 0; i < size; i++){ // adding new processes to end of the queue
       if(data[i].arrival_time == current_time && data[i].burst_time > 0){ // add to linked list
         struct process *new_process = &data[i]; // may need to fix this
-        //printf("adding %u at time %d\n", new_process->pid, current_time);
+        printf("adding %u at time %d\n", new_process->pid, current_time);
         TAILQ_INSERT_TAIL(&list, new_process, pointers);
       }
     }
