@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
       
-      //printf("Time: %d, Process: %u\n", current_time, current_process->pid);
+      printf("Time: %d, Process: %u\n", current_time, current_process->pid);
       if(current_process->started_exec != 1){ // checks if this is its first time running
         current_process->started_exec = 1;
         current_process->start_exec_time = current_time;
@@ -211,7 +211,7 @@ int main(int argc, char *argv[])
         total_response_time += (current_process->start_exec_time) - (current_process->arrival_time);
         total_waiting_time += current_time+ - (current_process->arrival_time) - (current_process->burst_time);
         //printf("Total waiting time: %u, current_time: %d, start exec time: %u, burst time: %u\n", total_waiting_time, current_time, current_process->start_exec_time, current_process->burst_time); 
-        //printf("fully removing %u\n", current_process->pid);
+        printf("fully removing %u\n", current_process->pid);
         TAILQ_REMOVE(&list, current_process, pointers);
         // free(current_process); // seems kinda weird
         quantum_time_left = quantum_length;
