@@ -180,6 +180,7 @@ int main(int argc, char *argv[])
     printf("Pid: %u, arrival_time: %u, burst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
     if(data[i].arrival_time > max_arrival_time){
       max_arrival_time = data[i].arrival_time;
+      printf("Changed max arrival time to %d\n", max_arrival_time);
     }
   }
 
