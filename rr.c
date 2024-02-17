@@ -197,6 +197,7 @@ int main(int argc, char *argv[])
     }
 
     if(!TAILQ_EMPTY(&list) || (current_time <= max_arrival_time)){ // pop off first one
+      printf("In loop\n");
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
       
