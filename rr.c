@@ -18,16 +18,15 @@ struct process
   u32 arrival_time;
   u32 burst_time;
 
+  TAILQ_ENTRY(process) pointers;
+
+  /* Additional fields here */
   u32 remaining_time;
   u32 start_exec_time;
   int started_exec;
 
   u32 waiting_time;
   u32 response_time;
-
-  TAILQ_ENTRY(process) pointers;
-
-  /* Additional fields here */
   /* End of "Additional fields here" */
 };
 
