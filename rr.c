@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
       
-      //printf("Time: %d, Process: %u\n", current_time, current_process->pid);
+      printf("Time: %d, Process: %u\n", current_time, current_process->pid);
       if(current_process->started_exec != 1){ // checks if this is its first time running
         current_process->started_exec = 1;
         current_process->start_exec_time = current_time;
