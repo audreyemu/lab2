@@ -171,12 +171,16 @@ int main(int argc, char *argv[])
   int finished = 0;
   int current_time = 0;
   int quantum_time_left = quantum_length;
+  int max_arrival_time = -1;
 
   struct process *delayed;
   int is_delayed = 0;
 
   for(int i = 0; i < size; i++){
     printf("Pid: %u, arrival_time: %u, burst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
+    if(data[i].arrival_time > max_arrival_time){
+      max_arrival_time = data[i].arrival_time;
+    }
   }
 
   while(!finished){
@@ -192,7 +196,7 @@ int main(int argc, char *argv[])
       is_delayed = 0;
     }
 
-    if(!TAILQ_EMPTY(&list)){ // pop off first one
+    if(!TAILQ_EMPTY(&list) || (current_time <= max_arrival_time)){ // pop off first one
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
       
