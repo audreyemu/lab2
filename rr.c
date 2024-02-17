@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
     printf("Pid: %u, arrival_time: %u, burst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
     if(data[i].arrival_time > max_arrival_time){
       max_arrival_time = data[i].arrival_time;
-      printf("Changed max arrival time to %d\n", max_arrival_time);
+      //printf("Changed max arrival time to %d\n", max_arrival_time);
     }
   }
 
@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
     for(int i = 0; i < size; i++){ // adding new processes to end of the queue
       if(data[i].arrival_time == current_time && data[i].burst_time > 0){ // add to linked list
         struct process *new_process = &data[i]; // may need to fix this
-        printf("adding %u at time %d\n", new_process->pid, current_time);
+        //printf("adding %u at time %d\n", new_process->pid, current_time);
         TAILQ_INSERT_TAIL(&list, new_process, pointers);
       }
     }
@@ -198,11 +198,11 @@ int main(int argc, char *argv[])
     }
 
     if(!TAILQ_EMPTY(&list)){ // pop off first one
-      printf("In loop\n");
+      //printf("In loop\n");
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
       
-      printf("Time: %d, Process: %u\n", current_time, current_process->pid);
+      //printf("Time: %d, Process: %u\n", current_time, current_process->pid);
       if(current_process->started_exec != 1){ // checks if this is its first time running
         current_process->started_exec = 1;
         current_process->start_exec_time = current_time;
