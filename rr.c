@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
   int finished = 0;
   int current_time = 0;
   int quantum_time_left = quantum_length;
-  int max_arrival_time = -1;
+  int max_arrival_time = 0;
 
   struct process *delayed;
   int is_delayed = 0;
