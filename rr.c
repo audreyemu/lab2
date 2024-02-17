@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
       is_delayed = 0;
     }
 
-    if(!TAILQ_EMPTY(&list){ // pop off first one
+    if(!TAILQ_EMPTY(&list)){ // pop off first one
       printf("In loop\n");
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
