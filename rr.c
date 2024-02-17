@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
       is_delayed = 0;
     }
 
-    if(!TAILQ_EMPTY(&list) || (current_time <= max_arrival_time)){ // pop off first one
+    if(!TAILQ_EMPTY(&list){ // pop off first one
       printf("In loop\n");
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
@@ -232,6 +232,10 @@ int main(int argc, char *argv[])
         // TAILQ_INSERT_TAIL(&list, current_process, pointers);
         quantum_time_left = quantum_length;
       }
+    }
+    else if(current_time <= max_arrival_time){ // if it has burst time of 0
+      quantum_time_left = quantum_length;
+      current_time += 1;
     }
     else{ // idk if this is fully correct (means there is no "first" element left in the queue)
       //printf("This is the end of the program. Need to clean up now\n");
