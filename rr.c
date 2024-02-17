@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
 
   while(!finished){
     for(int i = 0; i < size; i++){ // adding new processes to end of the queue
-      if(data[i].arrival_time == current_time){ // add to linked list
+      if(data[i].arrival_time == current_time && data[i].burst_time > 0){ // add to linked list
         struct process *new_process = &data[i]; // may need to fix this
         //printf("adding %u at time %d\n", new_process->pid, current_time);
         TAILQ_INSERT_TAIL(&list, new_process, pointers);
