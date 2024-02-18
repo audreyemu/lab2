@@ -176,78 +176,57 @@ int main(int argc, char *argv[])
   int is_delayed = 0;
 
   for(int i = 0; i < size; i++){
-    //printf("Pid: %u, arrival_time: %u, burst_time: %u\n", data[i].pid, data[i].arrival_time, data[i].burst_time);
-    if(data[i].arrival_time > max_arrival_time){
+    if(data[i].arrival_time > max_arrival_time){ // getting max arrival time in case one arrives way later
       max_arrival_time = data[i].arrival_time;
-      //printf("Changed max arrival time to %d\n", max_arrival_time);
     }
   }
 
   while(!finished){
-    for(int i = 0; i < size; i++){ // adding new processes to end of the queue
-      if(data[i].arrival_time == current_time && data[i].burst_time > 0){ // add to linked list
-        struct process *new_process = &data[i]; // may need to fix this
-        //printf("adding %u at time %d\n", new_process->pid, current_time);
+    for(int i = 0; i < size; i++){
+      if(data[i].arrival_time == current_time && data[i].burst_time > 0){ // add to linked list if it's burst time is not 0
+        struct process *new_process = &data[i];
         TAILQ_INSERT_TAIL(&list, new_process, pointers);
       }
     }
-    if(is_delayed){
+    if(is_delayed){ // if a new process arrives at same time one is finishing, but prioritize new process
       TAILQ_INSERT_TAIL(&list, delayed, pointers);
       is_delayed = 0;
     }
 
     if(!TAILQ_EMPTY(&list)){ // pop off first one
-      //printf("In loop\n");
       struct process *current_process;
       current_process = TAILQ_FIRST(&list);
       
-      //printf("Time: %d, Process: %u\n", current_time, current_process->pid);
       if(current_process->started_exec != 1){ // checks if this is its first time running
         current_process->started_exec = 1;
         current_process->start_exec_time = current_time;
-        current_process->remaining_time = current_process->burst_time; // ?
+        current_process->remaining_time = current_process->burst_time;
       }
       current_process->remaining_time -= 1; // decrement remaining time
       quantum_time_left -=1; // decrement quantum time left
       current_time += 1; // increment current time
       
-      if(current_process->remaining_time <= 0){ // if process is done
-        // get info from it
+      if(current_process->remaining_time <= 0){ // if process is done, collect data and remove/reset
         total_response_time += (current_process->start_exec_time) - (current_process->arrival_time);
         total_waiting_time += current_time+ - (current_process->arrival_time) - (current_process->burst_time);
-        //printf("Total waiting time: %u, current_time: %d, start exec time: %u, burst time: %u\n", total_waiting_time, current_time, current_process->start_exec_time, current_process->burst_time); 
-        //printf("fully removing %u\n", current_process->pid);
         TAILQ_REMOVE(&list, current_process, pointers);
         // free(current_process); // seems kinda weird
         quantum_time_left = quantum_length;
       }
 
-      if(quantum_time_left <= 0){ // if time slice ends
-        // move to back
-        //printf("Quantum time slice ended\n");
+      if(quantum_time_left <= 0){ // if time slice ends, get it ready to move to back
         TAILQ_REMOVE(&list, current_process, pointers);
-        delayed = current_process;
+        delayed = current_process; // must prioritize new process, so delay this insertion
         is_delayed = 1;
-        // TAILQ_INSERT_TAIL(&list, current_process, pointers);
         quantum_time_left = quantum_length;
       }
     }
-    else if(current_time <= max_arrival_time){ // if it has burst time of 0
+    else if(current_time <= max_arrival_time){ // must account for if process has burst time of 0
       quantum_time_left = quantum_length;
       current_time += 1;
     }
-    else{ // idk if this is fully correct (means there is no "first" element left in the queue)
-      //printf("This is the end of the program. Need to clean up now\n");
+    else{ // queue is empty and no more processes are arriving
       finished = 1;
-    }
-
-    if(current_time > 100){
-      //printf("current time greater than hundred\n");
-      finished = 1;
-      struct process *traverse_process;
-      TAILQ_FOREACH(traverse_process, &list, pointers){
-        //printf("Process %u\n", traverse_process->pid);
-      }
     }
   }
   
