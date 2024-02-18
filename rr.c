@@ -210,7 +210,7 @@ int main(int argc, char *argv[])
         total_response_time += (current_process->start_exec_time) - (current_process->arrival_time);
         total_waiting_time += current_time+ - (current_process->arrival_time) - (current_process->burst_time);
         TAILQ_REMOVE(&list, current_process, pointers);
-        // free(current_process); // seems kinda weird
+        free(current_process); // seems kinda weird
         quantum_time_left = quantum_length;
       }
 
